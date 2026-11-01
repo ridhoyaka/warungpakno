@@ -14,6 +14,7 @@ type Props = {
 export default function OrderModal({ cart, total, onClose, onSuccess }: Props) {
   const [name, setName] = useState('')
   const [arrivalTime, setArrivalTime] = useState('')
+  const [dineOption, setDineOption] = useState<'dine-in' | 'takeaway' | ''>('')
   const [error, setError] = useState('')
 
   const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '6281234567890'
@@ -23,10 +24,13 @@ export default function OrderModal({ cart, total, onClose, onSuccess }: Props) {
       .map(c => `  - ${c.menuItem.name} x${c.quantity} = ${formatRupiah(c.menuItem.price * c.quantity)}`)
       .join('\n')
 
+    const dineLabel = dineOption === 'dine-in' ? 'Makan di Tempat' : 'Bungkus'
+
     return (
       `*Reservasi Warung Pak No*\n\n` +
       `Nama : ${name}\n` +
-      `Jam : ${arrivalTime}\n\n` +
+      `Jam : ${arrivalTime}\n` +
+      `Tipe : ${dineLabel}\n\n` +
       `*Pesanan :*\n${items}\n\n` +
       `*Total : ${formatRupiah(total)}*`
     )
@@ -35,6 +39,7 @@ export default function OrderModal({ cart, total, onClose, onSuccess }: Props) {
   function handleOrder() {
     if (!name.trim()) { setError('Nama tidak boleh kosong.'); return }
     if (!arrivalTime.trim()) { setError('Jam kedatangan tidak boleh kosong.'); return }
+    if (!dineOption) { setError('Pilih makan di tempat atau bungkus.'); return }
 
     const message = encodeURIComponent(buildMessage())
     window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank')
@@ -90,6 +95,34 @@ export default function OrderModal({ cart, total, onClose, onSuccess }: Props) {
               onChange={e => { setArrivalTime(e.target.value); setError('') }}
               className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-300 focus:border-amber-400"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Tipe Pesanan</label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => { setDineOption('dine-in'); setError('') }}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
+                  dineOption === 'dine-in'
+                    ? 'bg-amber-400 border-amber-400 text-gray-900'
+                    : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                🍽️ Makan di Tempat
+              </button>
+              <button
+                type="button"
+                onClick={() => { setDineOption('takeaway'); setError('') }}
+                className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-colors ${
+                  dineOption === 'takeaway'
+                    ? 'bg-amber-400 border-amber-400 text-gray-900'
+                    : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                🥡 Bungkus
+              </button>
+            </div>
           </div>
 
           {error && <p className="text-red-500 text-xs">{error}</p>}
