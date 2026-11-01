@@ -62,8 +62,8 @@ export default async function HomePage() {
 
       <footer className="border-t border-gray-100 mt-12">
         <div className="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
-          <p className="text-xs text-gray-400">Lokasi Warung :</p>
-          <p className="text-xs text-gray-400">Pasar Tawangsari (Depan Tokomas Sahabat) Sukoharjo</p>
+          <p className="text-xs text-gray-400">Lokasi Warung : Pasar Tawangsari (Depan Tokomas Sahabat) Sukoharjo</p>
+          <p className="text-xs text-gray-400"></p>
         </div>
       </footer>
     </CartProvider>

@@ -24,11 +24,11 @@ export default function OrderModal({ cart, total, onClose, onSuccess }: Props) {
       .join('\n')
 
     return (
-      `*Pesanan Warung Pak No*\n\n` +
-      `Nama: ${name}\n` +
-      `Jam Kedatangan: ${arrivalTime}\n\n` +
-      `*Menu:*\n${items}\n\n` +
-      `*Total: ${formatRupiah(total)}*`
+      `*Reservasi Warung Pak No*\n\n` +
+      `Nama : ${name}\n` +
+      `Jam : ${arrivalTime}\n\n` +
+      `*Pesanan :*\n${items}\n\n` +
+      `*Total : ${formatRupiah(total)}*`
     )
   }
 
